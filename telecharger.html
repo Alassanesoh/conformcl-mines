@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Télécharger ConformCL Mines</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Mise en page : colonne unique de lecture, bandeau d'en-tête, deux cartes de téléchargement, étapes numérotées (vraie séquence) */
+:root {
+  --bg: #f6f7f8;
+  --surface: #ffffff;
+  --fg: #1b2430;
+  --muted: #5a6573;
+  --line: #dde2e8;
+  --accent: #b07d1a;      /* or brut */
+  --accent-ink: #ffffff;
+  --band: #18263a;        /* bleu ardoise */
+  --band-fg: #eef2f7;
+  --code-bg: #eef1f4;
+  --warn-bg: #fdf5e4;
+  --warn-line: #e8cf95;
+  --f-display: "Archivo", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", Consolas, "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11161d; --surface: #18202a; --fg: #e6eaef; --muted: #9aa5b2; --line: #2a3542;
+    --accent: #d9a542; --accent-ink: #15110a; --band: #0b1220; --band-fg: #e6eaef;
+    --code-bg: #212b37; --warn-bg: #2a2416; --warn-line: #5d4a22; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11161d; --surface: #18202a; --fg: #e6eaef; --muted: #9aa5b2; --line: #2a3542;
+  --accent: #d9a542; --accent-ink: #15110a; --band: #0b1220; --band-fg: #e6eaef;
+  --code-bg: #212b37; --warn-bg: #2a2416; --warn-line: #5d4a22; color-scheme: dark;
+}
+
+body { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 17px; line-height: 1.6; }
+.wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--f-display); line-height: 1.2; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+header.band { background: var(--band); color: var(--band-fg); }
+header .wrap { padding-block: 44px 40px; display: grid; gap: 14px; }
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--f-display); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; font-size: 13px; opacity: .85; }
+.brand svg { flex: none; }
+header h1 { font-size: clamp(28px, 6vw, 40px); font-weight: 800; }
+header p { color: var(--band-fg); opacity: .85; max-width: 60ch; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.chip { font-size: 13px; padding: 3px 10px; border: 1px solid rgba(255,255,255,.25); border-radius: 999px; font-variant-numeric: tabular-nums; }
+
+main .wrap { padding-block: 36px 56px; display: grid; gap: 48px; }
+section { display: grid; gap: 16px; }
+h2 { font-size: 22px; font-weight: 700; }
+.lead { color: var(--muted); max-width: 65ch; }
+
+.downloads { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.dl { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.dl.primary { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+.dl h3 { font-size: 18px; }
+.tag { justify-self: start; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+.dl p { color: var(--muted); font-size: 15px; }
+.file { font-family: var(--f-mono); font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+.btn { display: inline-flex; justify-content: center; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 8px; font-weight: 600; text-decoration: none; font-family: var(--f-body); font-size: 16px; cursor: pointer; border: 1px solid var(--accent); }
+.btn.solid { background: var(--accent); color: var(--accent-ink); }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn:hover { filter: brightness(1.06); }
+
+ol.steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 20px; }
+ol.steps > li { counter-increment: s; display: grid; grid-template-columns: 36px 1fr; gap: 14px; }
+ol.steps > li::before { content: counter(s); font-family: var(--f-display); font-weight: 700; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--band); color: var(--band-fg); font-size: 15px; }
+ol.steps > li > div { min-width: 0; display: grid; gap: 6px; }
+ol.steps h3 { font-size: 17px; padding-top: 4px; }
+ol.steps p { color: var(--muted); }
+
+.note { background: var(--warn-bg); border: 1px solid var(--warn-line); border-radius: 8px; padding: 12px 14px; font-size: 15px; color: var(--fg); }
+kbd, .ui { font-family: var(--f-body); font-weight: 600; color: var(--fg); }
+code, .mono { font-family: var(--f-mono); font-size: 14px; }
+
+.copyrow { display: flex; gap: 8px; align-items: stretch; flex-wrap: wrap; }
+.copyrow code { flex: 1 1 260px; min-width: 0; background: var(--code-bg); border-radius: 6px; padding: 9px 12px; overflow-x: auto; white-space: nowrap; color: var(--fg); }
+.copy { font: 600 14px var(--f-body); background: var(--surface); color: var(--fg); border: 1px solid var(--line); border-radius: 6px; padding: 0 14px; cursor: pointer; min-height: 38px; }
+.hashes { display: grid; gap: 6px; }
+
+.licence-key { font-family: var(--f-mono); font-size: 15px; letter-spacing: .08em; background: var(--code-bg); padding: 2px 8px; border-radius: 4px; color: var(--fg); }
+
+dl.facts { display: grid; grid-template-columns: max-content 1fr; gap: 10px 20px; margin: 0; }
+dl.facts dt { font-weight: 600; }
+dl.facts dd { margin: 0; color: var(--muted); min-width: 0; }
+@media (max-width: 520px) { dl.facts { grid-template-columns: 1fr; gap: 2px; } dl.facts dd { margin-bottom: 10px; } }
+
+.contact { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; display: grid; gap: 10px; }
+.contact .line { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+.contact .val { user-select: all; font-weight: 600; }
+
+footer { border-top: 1px solid var(--line); }
+footer .wrap { padding-block: 20px; color: var(--muted); font-size: 14px; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<style>body { margin: 0; } img { max-width: 100%; }</style>
+</head>
+<body>
+<header class="band">
+  <div class="wrap">
+    <div class="brand">
+      <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20 L10 6 L14 13 L16.5 9 L21 20 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      ConformCL Mines
+    </div>
+    <h1>Installer ConformCL Mines sur votre poste</h1>
+    <p>Le logiciel de suivi du contenu local minier au Mali : ratios de personnel, achats et sous-traitance, appels d'offres, fournisseurs et notes de synthèse, conformément à la loi n° 2023-041 et au décret n° 2024-0397.</p>
+    <div class="meta">
+      <span class="chip">Version 1.1.0</span>
+      <span class="chip">Windows 10 et 11, 64 bits</span>
+      <span class="chip">≈ 83 Mo</span>
+      <span class="chip">Signé numériquement</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <section aria-labelledby="t-dl">
+      <h2 id="t-dl">Télécharger</h2>
+      <div class="downloads">
+        <div class="dl primary">
+          <span class="tag">Recommandé</span>
+          <h3>Version à installer</h3>
+          <p>Ajoute un raccourci sur le bureau et dans le menu Démarrer, et se désinstalle depuis les paramètres de Windows.</p>
+          <span class="file">ConformCL-Mines-Installation-1.1.0.exe</span>
+          
+          <a class="btn solid" id="lien-installation" href="https://github.com/Alassanesoh/conformcl-mines/releases/download/v1.1.0/ConformCL-Mines-Installation-1.1.0.exe" target="_blank" rel="noopener">Télécharger l'installateur</a>
+        </div>
+        <div class="dl">
+          <span class="tag">Poste verrouillé</span>
+          <h3>Version portable</h3>
+          <p>Fonctionne sans installation, par exemple depuis une clé USB ou sur un poste où votre service informatique bloque les installations.</p>
+          <span class="file">ConformCL-Mines-Portable-1.1.0.exe</span>
+          
+          <a class="btn ghost" id="lien-portable" href="https://github.com/Alassanesoh/conformcl-mines/releases/download/v1.1.0/ConformCL-Mines-Portable-1.1.0.exe" target="_blank" rel="noopener">Télécharger la version portable</a>
+        </div>
+      </div>
+      <p class="lead">Connexion lente sur site ? Téléchargez le fichier depuis vos bureaux, puis copiez-le sur une clé USB.</p>
+    </section>
+
+    <section aria-labelledby="t-inst">
+      <h2 id="t-inst">Installer et activer</h2>
+      <ol class="steps">
+        <li><div>
+          <h3>Lancez le fichier téléchargé</h3>
+          <p>Double-cliquez sur <span class="mono">ConformCL-Mines-Installation-1.1.0.exe</span>, dans votre dossier Téléchargements.</p>
+        </div></li>
+        <li><div>
+          <h3>Si Windows affiche « Windows a protégé votre ordinateur »</h3>
+          <p>Cliquez sur <span class="ui">Informations complémentaires</span>, puis sur <span class="ui">Exécuter quand même</span>.</p>
+          <p class="note">Le logiciel est signé numériquement au nom de l'éditeur <strong>Alhassane Sow</strong> (certificat Certum). Ce message peut encore apparaître tant que le logiciel est récent et peu connu de Microsoft. Il ne signale pas de virus. Vérifiez que la fenêtre indique « Éditeur : Alhassane Sow ». Si elle indique « Éditeur inconnu », ne lancez pas le fichier et contactez-nous.</p>
+        </div></li>
+        <li><div>
+          <h3>Suivez l'assistant d'installation</h3>
+          <p>Lisez et acceptez les conditions de licence, choisissez le dossier d'installation si vous le souhaitez, puis cliquez sur <span class="ui">Installer</span>. Aucun droit administrateur n'est nécessaire.</p>
+        </div></li>
+        <li><div>
+          <h3>Notez votre code poste</h3>
+          <p>Au premier lancement, acceptez les conditions d'utilisation. L'écran d'activation affiche alors votre code poste, au format <span class="licence-key">XXXX-XXXX-XXXX-XXXX</span>.</p>
+        </div></li>
+        <li><div>
+          <h3>Envoyez-nous ce code</h3>
+          <p>Transmettez-le par courriel avec le nom de votre société. Nous vous renvoyons votre clé de licence, qui commence par <span class="licence-key">CCLM1.</span></p>
+        </div></li>
+        <li><div>
+          <h3>Collez la clé dans l'écran d'activation</h3>
+          <p>Le logiciel est prêt. Le nom de votre société apparaît dans l'en-tête. Pour renouveler votre licence, il suffira de coller une nouvelle clé au même endroit.</p>
+        </div></li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="t-dsi">
+      <h2 id="t-dsi">Informations pour votre service informatique</h2>
+      <dl class="facts">
+        <dt>Système</dt><dd>Windows 10 ou 11, 64 bits.</dd>
+        <dt>Installation</dt><dd>Par utilisateur, sans droits administrateur. Désinstallation depuis les paramètres de Windows.</dd>
+        <dt>Signature</dt><dd>Exécutables signés et horodatés (Authenticode SHA-256), éditeur « Alhassane Sow », certificat délivré par Certum Code Signing 2021 CA.</dd>
+        <dt>Données</dt><dd>Enregistrées uniquement sur le poste, dans <span class="mono">%APPDATA%\ConformCL Mines</span>. Aucun envoi vers un serveur externe.</dd>
+        <dt>Licence</dt><dd>Vérifiée sur le poste par signature cryptographique, sans connexion Internet.</dd>
+        <dt>Sauvegarde</dt><dd>Depuis l'onglet Registre du logiciel, sous forme de fichier <span class="mono">.cclm</span>. Pensez à l'inclure dans vos sauvegardes régulières.</dd>
+      </dl>
+    </section>
+
+    <section aria-labelledby="t-hash">
+      <h2 id="t-hash">Vérifier que le fichier est authentique</h2>
+      <p class="lead">Le plus simple : clic droit sur le fichier, <span class="ui">Propriétés</span>, onglet <span class="ui">Signatures numériques</span>. Le signataire doit être « Alhassane Sow ».</p>
+      <p class="lead">Pour une vérification complète, ouvrez une invite de commandes sur votre dossier Téléchargements et lancez :</p>
+      <div class="copyrow">
+        <code id="cmd">certutil -hashfile ConformCL-Mines-Installation-1.1.0.exe SHA256</code>
+        <button class="copy" type="button" id="copy-cmd" data-target="cmd">Copier</button>
+      </div>
+      <p class="lead">Le résultat doit être identique à l'empreinte ci-dessous. S'il diffère, ne lancez pas le fichier et contactez-nous. Pour la version portable, remplacez le nom du fichier dans la commande.</p>
+      <div class="hashes">
+        <span class="file">Version à installer</span>
+        <div class="copyrow">
+          <code id="hash">9A713F894B4249892A8AB49843722101ED745F41E043B9348AD1A0DA2D61E9E4</code>
+          <button class="copy" type="button" id="copy-hash" data-target="hash">Copier</button>
+        </div>
+      </div>
+      <div class="hashes">
+        <span class="file">Version portable</span>
+        <div class="copyrow">
+          <code id="hash-portable">B08EBCC539BFE48F5FA3434537F7D609C5A545B28AAEC8FB4FBA1570B4450CA1</code>
+          <button class="copy" type="button" id="copy-hash-portable" data-target="hash-portable">Copier</button>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="t-contact">
+      <h2 id="t-contact">Besoin d'aide ?</h2>
+      <div class="contact">
+        <p>Pour l'activation, le renouvellement de votre licence ou toute question :</p>
+        
+        <div class="line"><span>Courriel</span><span class="val">alassanesoh@gmail.com</span></div>
+        <div class="line"><span>Téléphone et WhatsApp</span><span class="val">+223 76 48 75 37</span></div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 ConformCL Mines. Tous droits réservés.</div>
+</footer>
+
+<script>
+document.querySelectorAll('.copy').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var el = document.getElementById(b.dataset.target);
+    var txt = el.textContent.trim();
+    var done = function () { b.textContent = 'Copié'; setTimeout(function () { b.textContent = 'Copier'; }, 1800); };
+    var fallback = function () {
+      var r = document.createRange(); r.selectNodeContents(el);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      b.textContent = 'Sélectionné';
+      setTimeout(function () { b.textContent = 'Copier'; }, 1800);
+    };
+    try { navigator.clipboard.writeText(txt).then(done, fallback); } catch (e) { fallback(); }
+  });
+});
+</script>
+
+</body>
+</html>
